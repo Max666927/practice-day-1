@@ -1,0 +1,1 @@
+ALTER TABLE delivery_schedule ADD COLUMN additional_info VARCHAR(255);
