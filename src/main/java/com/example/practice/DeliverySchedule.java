@@ -14,4 +14,5 @@ public class DeliverySchedule {
     private int deliveryNumber;
     private LocalDate deliveryDate;
     private int quantity;
+    private String additionalInfo;
 }
