@@ -1,6 +1,9 @@
 package com.example.practice.repository;
 
+import com.example.practice.Entity.DeliverySchedule;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface DeliveryScheduleRepository extends JpaRepository<DeliveryScheduleRepository, Long> {
+@Repository
+public interface DeliveryScheduleRepository extends JpaRepository<DeliverySchedule, Long> {
 }

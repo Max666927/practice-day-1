@@ -1,9 +1,13 @@
-package com.example.practice;
+package com.example.practice.dto;
 
 import java.time.LocalDate;
+import com.example.practice.Product;
+import com.example.practice.Supplier;
+import com.example.practice.Store;
 
-public class DeliverySchedule {
-    private Long id;
+
+
+public class DeliveryScheduleDTO {
     private Product product;
     private Supplier supplier;
     private Store store;
@@ -11,14 +15,6 @@ public class DeliverySchedule {
     private LocalDate deliveryDate;
     private int quantity;
     private String additionalInfo;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public Product getProduct() {
         return product;
@@ -74,13 +70,5 @@ public class DeliverySchedule {
 
     public void setAdditionalInfo(String additionalInfo) {
         this.additionalInfo = additionalInfo;
-    }
-
-    public String getDayOfWeek() {
-        return this.deliveryDate != null ? this.deliveryDate.getDayOfWeek().name() : null;
-    }
-
-    public String getDeliveryTime() {
-        return "08:00";
     }
 }

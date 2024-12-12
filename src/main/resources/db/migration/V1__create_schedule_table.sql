@@ -1,9 +1,9 @@
-CREATE TABLE schedule (
+CREATE TABLE delivery_schedule (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    product_name VARCHAR(255) NOT NULL,
-    supply_number INT NOT NULL,
-    supply_date DATE NOT NULL,
-    supplier VARCHAR(255) NOT NULL,
+    item_name VARCHAR(50) NOT NULL,
+    delivery_number INT NOT NULL,
+    delivery_date DATE NOT NULL,
+    supplier VARCHAR(50) NOT NULL,
     quantity INT NOT NULL,
-    unloading_store VARCHAR(255) NOT NULL
+    unloading_shop VARCHAR(50) NOT NULL
 );

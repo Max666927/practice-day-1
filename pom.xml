@@ -15,7 +15,7 @@
 	<description>Demo project for Spring Boot</description>
 
 	<properties>
-		<java.version>23</java.version>
+		<java.version>17</java.version> <!-- Змінено на 17 для сумісності -->
 	</properties>
 
 	<dependencies>
@@ -45,11 +45,25 @@
 			<version>9.22.2</version>
 		</dependency>
 
+		<!-- Validation API -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-validation</artifactId>
+		</dependency>
+
 		<!-- Testing -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
+		</dependency>
+
+		<!-- Lombok -->
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.18.24</version> <!-- або найновішу версію -->
+			<scope>provided</scope>
 		</dependency>
 	</dependencies>
 

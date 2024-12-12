@@ -1,15 +1,20 @@
 package com.example.practice.controller;
 
-import com.example.practice.DeliverySchedule;
-import com.example.practice.entity.DeliverySchedule;
+import com.example.practice.dto.DeliveryScheduleDTO;
 import com.example.practice.service.DeliveryScheduleService;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import jakarta.validation.Valid;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/schedules")
+@Validated
 public class DeliveryScheduleController {
+
     private final DeliveryScheduleService service;
 
     public DeliveryScheduleController(DeliveryScheduleService service) {
@@ -17,28 +22,46 @@ public class DeliveryScheduleController {
     }
 
     @GetMapping
-    public List<DeliverySchedule> getAllSchedules() {
+    public List<DeliveryScheduleDTO> getAllSchedules() {
         return service.getAllSchedules();
     }
 
     @GetMapping("/{id}")
-    public DeliverySchedule getScheduleById(@PathVariable Long id) {
-        return service.getScheduleById(id).orElseThrow(() -> new RuntimeException("Schedule not found"));
+    public ResponseEntity<DeliveryScheduleDTO> getScheduleById(@PathVariable Long id) {
+        return service.getScheduleById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
-    public DeliverySchedule createSchedule(@RequestBody DeliverySchedule schedule) {
-        return service.createOrUpdateSchedule(schedule);
+    public ResponseEntity<DeliveryScheduleDTO> createSchedule(@Valid @RequestBody DeliveryScheduleDTO scheduleDTO) {
+        DeliveryScheduleDTO createdSchedule = service.createOrUpdateSchedule(scheduleDTO);
+        return ResponseEntity.status(201).body(createdSchedule);
     }
 
     @PutMapping("/{id}")
-    public DeliverySchedule updateSchedule(@PathVariable Long id, @RequestBody DeliverySchedule schedule) {
-        schedule.setId(id);
-        return service.createOrUpdateSchedule(schedule);
+    public ResponseEntity<DeliveryScheduleDTO> updateSchedule(@PathVariable Long id, @Valid @RequestBody DeliveryScheduleDTO scheduleDTO) {
+        return service.getScheduleById(id)
+                .map(existing -> {
+                    scheduleDTO.setId(id);
+                    DeliveryScheduleDTO updatedSchedule = service.createOrUpdateSchedule(scheduleDTO);
+                    return ResponseEntity.ok(updatedSchedule);
+                })
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/{id}")
-    public void deleteSchedule(@PathVariable Long id) {
-        service.deleteSchedule(id);
+    public ResponseEntity<Void> deleteSchedule(@PathVariable Long id) {
+        if (service.getScheduleById(id).isPresent()) {
+            service.deleteSchedule(id);
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.notFound().build();
+    }
+
+    @GetMapping("/week")
+    public ResponseEntity<Map<String, List<DeliveryScheduleDTO>>> getWeeklySchedule() {
+        Map<String, List<DeliveryScheduleDTO>> schedule = service.getWeeklySchedule();
+        return ResponseEntity.ok(schedule);
     }
 }
