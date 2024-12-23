@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel</title>
+</head>
+<body>
+<h1>Admin Panel</h1>
+<form id="createEntityForm">
+    <h2>Create Entity</h2>
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" required>
+    <br>
+    <label for="date">Date:</label>
+    <input type="date" id="date" name="date" required>
+    <br>
+    <button type="submit">Create</button>
+</form>
+
+<h2>Existing Entities</h2>
+<ul id="entityList"></ul>
+
+<script>
+    function loadEntities() {
+        fetch('/api/entity')
+            .then(response => response.json())
+    .then(entities => {
+            const entityList = document.getElementById('entityList');
+        entityList.innerHTML = '';
+        entities.forEach(entity => {
+            const li = document.createElement('li');
+        li.textContent = `${entity.name} (${entity.date})`;
+        entityList.appendChild(li);
+    });
+    });
+    }
+
+    document.getElementById('createEntityForm').addEventListener('submit', function (event) {
+        event.preventDefault();
+
+        const name = document.getElementById('name').value;
+        const date = document.getElementById('date').value;
+
+        fetch('/api/entity', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name, date })
+        }).then(() => loadEntities());
+    });
+
+    loadEntities();
+</script>
+</body>
+</html>
