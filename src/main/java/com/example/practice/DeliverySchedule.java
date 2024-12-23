@@ -1,86 +1,10 @@
-package com.example.practice;
+package com.example.controller;
 
-import java.time.LocalDate;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-public class DeliverySchedule {
-    private Long id;
-    private Product product;
-    private Supplier supplier;
-    private Store store;
-    private int deliveryNumber;
-    private LocalDate deliveryDate;
-    private int quantity;
-    private String additionalInfo;
+@RestController
+@RequestMapping("/api/delivery")
+public class DeliveryController {
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Product getProduct() {
-        return product;
-    }
-
-    public void setProduct(Product product) {
-        this.product = product;
-    }
-
-    public Supplier getSupplier() {
-        return supplier;
-    }
-
-    public void setSupplier(Supplier supplier) {
-        this.supplier = supplier;
-    }
-
-    public Store getStore() {
-        return store;
-    }
-
-    public void setStore(Store store) {
-        this.store = store;
-    }
-
-    public int getDeliveryNumber() {
-        return deliveryNumber;
-    }
-
-    public void setDeliveryNumber(int deliveryNumber) {
-        this.deliveryNumber = deliveryNumber;
-    }
-
-    public LocalDate getDeliveryDate() {
-        return deliveryDate;
-    }
-
-    public void setDeliveryDate(LocalDate deliveryDate) {
-        this.deliveryDate = deliveryDate;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-
-    public String getAdditionalInfo() {
-        return additionalInfo;
-    }
-
-    public void setAdditionalInfo(String additionalInfo) {
-        this.additionalInfo = additionalInfo;
-    }
-
-    public String getDayOfWeek() {
-        return this.deliveryDate != null ? this.deliveryDate.getDayOfWeek().name() : null;
-    }
-
-    public String getDeliveryTime() {
-        return "08:00";
-    }
 }

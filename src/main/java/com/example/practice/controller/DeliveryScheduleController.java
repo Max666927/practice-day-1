@@ -1,67 +1,25 @@
-package com.example.practice.controller;
+package com.example.controller;
 
-import com.example.practice.dto.DeliveryScheduleDTO;
-import com.example.practice.service.DeliveryScheduleService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import jakarta.validation.Valid;
 import java.util.List;
 import java.util.Map;
 
 @RestController
 @RequestMapping("/api/schedules")
-@Validated
-public class DeliveryScheduleController {
-
-    private final DeliveryScheduleService service;
-
-    public DeliveryScheduleController(DeliveryScheduleService service) {
-        this.service = service;
-    }
-
-    @GetMapping
-    public List<DeliveryScheduleDTO> getAllSchedules() {
-        return service.getAllSchedules();
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<DeliveryScheduleDTO> getScheduleById(@PathVariable Long id) {
-        return service.getScheduleById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
-    }
-
-    @PostMapping
-    public ResponseEntity<DeliveryScheduleDTO> createSchedule(@Valid @RequestBody DeliveryScheduleDTO scheduleDTO) {
-        DeliveryScheduleDTO createdSchedule = service.createOrUpdateSchedule(scheduleDTO);
-        return ResponseEntity.status(201).body(createdSchedule);
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<DeliveryScheduleDTO> updateSchedule(@PathVariable Long id, @Valid @RequestBody DeliveryScheduleDTO scheduleDTO) {
-        return service.getScheduleById(id)
-                .map(existing -> {
-                    scheduleDTO.setId(id);
-                    DeliveryScheduleDTO updatedSchedule = service.createOrUpdateSchedule(scheduleDTO);
-                    return ResponseEntity.ok(updatedSchedule);
-                })
-                .orElse(ResponseEntity.notFound().build());
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteSchedule(@PathVariable Long id) {
-        if (service.getScheduleById(id).isPresent()) {
-            service.deleteSchedule(id);
-            return ResponseEntity.noContent().build();
-        }
-        return ResponseEntity.notFound().build();
-    }
+public class ScheduleController {
 
     @GetMapping("/week")
-    public ResponseEntity<Map<String, List<DeliveryScheduleDTO>>> getWeeklySchedule() {
-        Map<String, List<DeliveryScheduleDTO>> schedule = service.getWeeklySchedule();
+    public ResponseEntity<Map<String, List<String>>> getWeeklySchedule() {
+        // Сервіс для отримання розкладу
+        Map<String, List<String>> schedule = Map.of(
+                "Monday", List.of("Task 1", "Task 2"),
+                "Tuesday", List.of("Task 3")
+        );
+
         return ResponseEntity.ok(schedule);
     }
 }
